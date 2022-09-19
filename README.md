@@ -28,9 +28,9 @@ This library provides an expression parser and evaluator. It has the following f
   * Number multiplication `*`, i.e. `4 * 4.2`
   * Number division `/`, i.e. `5 / 2`
   * Number comparisons `<`, `<=`, `>`, `>=`
-  * Number/string/boolean equality `=`
-  * Logical and `&`, i.e. `(5 < 10) & (2 < 1)`
-  * Logical or `|`
+  * Number/string/boolean equality `==`
+  * Logical and `&&`, i.e. `(5 < 10) && (2 < 1)`
+  * Logical or `||`
 * Functions
   * Variadic argument number sum `sum`, i.e. `sum(1, 3, 5)`
   * Variadic argument number product `product`, i.e. `product(2, 3, 4)`
@@ -100,7 +100,7 @@ strParenExpr := STRING | PATH | LEFT_PAREN strPathExpr RIGHT_PAREN
 ### Tokens
 
 ```
-PATH := TODO
+PATH := must start with $
 NUMBER := TODO
 BOOL := true | false
 STRING := '[any characters, with escaped ' and \]'
@@ -118,9 +118,10 @@ LESS := <
 LESS_EQ := <=
 MORE := >
 MORE_EQ := >=
-AND_OP := &
+EQ := ==
+AND_OP := &&
 AND := and
-OR_OP := |
+OR_OP := ||
 OR := or
 COMMA := ,
 ```
