@@ -91,12 +91,13 @@ numParenExpr := NUMBER | PATH | LEFT_PAREN numPathExpr RIGHT_PAREN | LEFT_PAREN 
 
 numExprList := _ | COMMA numExpr numExprList
 
-boolParenExpr := BOOL | PATH | LEFT_PAREN boolPathExpr RIGHT_PAREN | LEFT_PAREN notExpr RIGHT_PAREN | LEFT_PAREN cmpExpr RIGHT_PAREN | LEFT_PAREN eqlExpr RIGHT_PAREN | LEFT_PAREN andExpr RIGHT_PAREN | andFnExpr | LEFT_PAREN orExpr RIGHT_PAREN | orFnExpr
+boolParenExpr := BOOL | PATH | LEFT_PAREN boolPathExpr RIGHT_PAREN | notExpr | LEFT_PAREN cmpExpr RIGHT_PAREN | LEFT_PAREN eqlExpr RIGHT_PAREN | LEFT_PAREN andExpr RIGHT_PAREN | andFnExpr | LEFT_PAREN orExpr RIGHT_PAREN | orFnExpr
 
 boolExprList := _ | COMMA boolExpr boolExprList
 
 strParenExpr := STRING | PATH | LEFT_PAREN strPathExpr RIGHT_PAREN
 ```
+
 ### Tokens
 
 ```
@@ -113,6 +114,7 @@ RIGHT_PAREN := )
 TIMES := *
 PRODUCT := product
 DIVIDE := /
+NOT := !
 LENGTH := length
 LESS := <
 LESS_EQ := <=

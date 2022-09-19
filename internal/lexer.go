@@ -23,6 +23,7 @@ const (
 	PRODUCT_WORD
 	DIVIDE_OP
 	LENGTH_WORD
+	NOT_OP
 	LESS_THAN_OP
 	LESS_THAN_OR_EQUAL_OP
 	GREATER_THAN_OP
@@ -90,6 +91,9 @@ func Lex(expr string) ([]Token, error) {
 			id := readID(iter, r)
 			t, e := idToToken(id)
 			tokens, err = append(tokens, t), e
+		case r == '\'':
+			s, e := readString(iter)
+			tokens, err = append(tokens, Token{Type: STRING, Value: s}), e
 		case r == '?':
 			tokens = append(tokens, Token{Type: IF_NOT_FOUND_OP})
 		case r == '+':
@@ -116,6 +120,8 @@ func Lex(expr string) ([]Token, error) {
 			} else {
 				tokens = append(tokens, Token{Type: GREATER_THAN_OP})
 			}
+		case r == '!':
+			tokens = append(tokens, Token{Type: NOT_OP})
 		case r == '=':
 			t, e := readDoubleToken(iter, '=', EQUAL_OP)
 			tokens, err = append(tokens, t), e
@@ -127,9 +133,6 @@ func Lex(expr string) ([]Token, error) {
 			tokens, err = append(tokens, t), e
 		case r == ',':
 			tokens = append(tokens, Token{Type: COMMA})
-		case r == '\'':
-			s, e := readString(iter)
-			tokens, err = append(tokens, Token{Type: STRING, Value: s}), e
 		case unicode.IsSpace(r):
 		default:
 			err = fmt.Errorf("unexpected token %q", r)
@@ -307,12 +310,12 @@ func readDoubleToken(iter *stringIterator, want rune, tokenType TokenType) (Toke
 	return Token{Type: tokenType}, nil
 }
 
-// readString is called after the lexer reads a '\'' rune, which starts a
+// readString is called after the lexer reads a '\” rune, which starts a
 // string. This functions reads runes from the iterator until it finds an
-// unescaped '\'' rune. It will read an escaped rune after a '\\' rune.
+// unescaped '\” rune. It will read an escaped rune after a '\\' rune.
 //
-// It will error if the iterator ends before an unescaped '\'' rune, or if it
-// reads a rune other than '\'' or '\\' after a '\\' rune.
+// It will error if the iterator ends before an unescaped '\” rune, or if it
+// reads a rune other than '\” or '\\' after a '\\' rune.
 func readString(iter *stringIterator) (string, error) {
 	sb := strings.Builder{}
 loop:
